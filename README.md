@@ -44,7 +44,7 @@ Paired devices stay paired across redeploys. You can see and revoke them in the 
 
 - **Claude:** run `claude auth login`, open the URL it prints, then paste the code back. Or set `ANTHROPIC_API_KEY`, or `CLAUDE_CODE_OAUTH_TOKEN` from `claude setup-token`. Leave both empty if you use the subscription login.
 - **Codex:** choose **Continue with ChatGPT** in T3's onboarding or in Settings → Providers. You can also run `codex login --device-auth` in the terminal. `OPENAI_API_KEY` logs Codex in with a key on first boot. To change that key later, run `codex logout` and redeploy.
-- **OpenCode (free models, no key):** turn on OpenCode in Settings → Providers and pick a model marked Free. This adds about 350 MB of RAM, because T3 keeps an `opencode serve` process running.
+- **OpenCode (free models, no key):** turn on OpenCode in Settings → Providers and pick a model marked Free. Once you use it, T3 keeps an `opencode serve` process running, which adds about 350 MB of RAM.
 
 **3. Add a project.** Use **Add project** → Git URL to clone a repo, or Local folder → `~/workspace/<dir>`. Set `GH_TOKEN` and private clones, `git push` and `gh pr create` work without a login (the box runs `gh auth setup-git` at boot). Set your commit identity once with `git config --global user.name/user.email`.
 
@@ -52,7 +52,7 @@ Paired devices stay paired across redeploys. You can see and revoke them in the 
 
 Notes and limits:
 
-- **RAM:** about 400 MB idle (T3 server about 340 MB, plus the pairing page and nginx), and about 750 MB with OpenCode turned on. Every running agent session adds roughly 0.3 to 1 GB, and builds and tests need more. Use the Hobby plan or higher; the Trial plan's 512 MB will not run an agent.
+- **RAM:** about 250 MB idle on Railway (the T3 server, the pairing page and nginx). OpenCode's `opencode serve` adds about 350 MB once you use it, and every running agent session adds roughly 0.3 to 1 GB (a single OpenCode task peaked at about 1.7 GB in our test). Builds and tests need more. Use the Hobby plan or higher; the Trial plan's 512 MB will not run an agent.
 - The image is about 2.7 GB, so the first build takes a few minutes.
 - **T3 Code is alpha software (v0.0.45).** Expect rough edges and breaking changes between versions.
 - **This server runs arbitrary commands.** Agents and the T3 terminal have a shell with passwordless sudo on this box. The T3 pairing lock and `T3_SETUP_PASSWORD` are all that protect it: keep the password secret and treat pairing links like passwords.
