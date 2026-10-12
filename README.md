@@ -54,7 +54,8 @@ Notes and limits:
 
 - **RAM:** about 400 MB idle (T3 server about 340 MB, plus the pairing page and nginx), and about 750 MB with OpenCode turned on. Every running agent session adds roughly 0.3 to 1 GB, and builds and tests need more. Use the Hobby plan or higher; the Trial plan's 512 MB will not run an agent.
 - The image is about 2.7 GB, so the first build takes a few minutes.
-- Agents have a shell with sudo on this box. The T3 pairing lock and `T3_SETUP_PASSWORD` protect it: keep the password secret and treat pairing links like passwords.
+- **T3 Code is alpha software (v0.0.45).** Expect rough edges and breaking changes between versions.
+- **This server runs arbitrary commands.** Agents and the T3 terminal have a shell with passwordless sudo on this box. The T3 pairing lock and `T3_SETUP_PASSWORD` are all that protect it: keep the password secret and treat pairing links like passwords.
 - Anything installed outside `/home/t3` is lost on redeploy. Put tools in `~/.local/bin`.
 - There is no Docker daemon in the box. T3's in-app browser tabs need `sudo t3 browser setup` first; this template does not test them.
 
