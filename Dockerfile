@@ -1,13 +1,12 @@
 FROM ubuntu:24.04
 
 # Bump here. T3: version + sha256 of t3-<v>-linux-x64.tar.gz from the release's SHA256SUMS.
-ARG T3_VERSION=0.0.45
-ARG T3_SHA256=10505ae74bc6a43cfab0fde0bf06a0e0d6862f74030591be994a640d48a0d6bd
-ARG CLAUDE_CODE_VERSION=2.1.287
-ARG CODEX_VERSION=0.162.1
-# (gh api repos/anomalyco/opencode/releases/tags/vX.Y.Z -q '.assets[]|select(.name=="opencode-linux-x64.tar.gz").digest')
-ARG OPENCODE_VERSION=1.18.35
-ARG OPENCODE_SHA256=c8f888b451f5494a18f858fffb0e0b68f4e4baa9c241761c5f206884f0fa640d
+ARG T3_VERSION=0.1.0
+ARG T3_SHA256=f7703ff1bb8f6243580058b3ccf2c02abb62eba4b991e26bbb1da22f4b56d9b1
+ARG CLAUDE_CODE_VERSION=2.1.302
+ARG CODEX_VERSION=0.163.0
+# OpenCode 2 (@opencode/cli); T3 0.1.0 only gives OpenCode 1.x limited support.
+ARG OPENCODE_VERSION=2.0.32
 
 # Global npm installs go to /opt/npm, owned by the t3 user, so T3's "Update" button for
 # Claude/Codex works without root (until the next redeploy restores the pinned versions).
@@ -28,14 +27,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && apt-get update && apt-get install -y --no-install-recommends nodejs gh \
   && curl -LsSf https://astral.sh/uv/install.sh | UV_INSTALL_DIR=/usr/local/bin sh \
   && npm install -g "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" "@openai/codex@${CODEX_VERSION}" \
-  && npm cache clean --force && claude --version && codex --version \
+       "@opencode/cli@${OPENCODE_VERSION}" \
+  && npm cache clean --force && claude --version && codex --version && opencode --version \
   && curl -fsSL -o /tmp/t3.tgz "https://github.com/pingdotgg/t3code/releases/download/v${T3_VERSION}/t3-${T3_VERSION}-linux-x64.tar.gz" \
   && echo "${T3_SHA256}  /tmp/t3.tgz" | sha256sum -c - \
   && mkdir -p /opt/t3 && tar xzf /tmp/t3.tgz -C /opt/t3 --strip-components=1 && rm /tmp/t3.tgz \
   && ln -s /opt/t3/t3 /usr/local/bin/t3 && t3 --version \
-  && curl -fsSL -o /tmp/oc.tgz "https://github.com/anomalyco/opencode/releases/download/v${OPENCODE_VERSION}/opencode-linux-x64.tar.gz" \
-  && echo "${OPENCODE_SHA256}  /tmp/oc.tgz" | sha256sum -c - \
-  && tar xzf /tmp/oc.tgz -C /usr/local/bin opencode && rm /tmp/oc.tgz && opencode --version \
   && ln -s /usr/bin/fdfind /usr/local/bin/fd \
   # nginx `auto` sizes from the host's cores on Railway, not the container's limit.
   && sed -i 's/^worker_processes .*/worker_processes 2;/' /etc/nginx/nginx.conf \
