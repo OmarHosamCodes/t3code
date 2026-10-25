@@ -1,17 +1,18 @@
 FROM ubuntu:24.04
 
-# Bump here. T3: version + sha256 of t3-<v>-linux-x64.tar.gz from the release's SHA256SUMS.
+# Bump here. T3 tracks the newest nightly prerelease:
+# version + sha256 of t3-<v>-linux-x64.tar.gz from that release's SHA256SUMS.
 # `# upgrade:` lines tell dispatched.zaur.app where to look for newer releases.
 # upgrade: github pingdotgg/t3code
-ARG T3_VERSION=0.1.2
-ARG T3_SHA256=7aed625cb961938df174c1a067c0f05235360940b53e882a1643126b754da16c
+ARG T3_VERSION=0.1.3-nightly.20261024.3643
+ARG T3_SHA256=226d64614ed321ccdcb5255d8620a5ffb59e7f74f1cce65cfc48cbb627046044
 # upgrade: npm @anthropic-ai/claude-code
-ARG CLAUDE_CODE_VERSION=2.1.309
+ARG CLAUDE_CODE_VERSION=2.1.310
 # upgrade: npm @openai/codex
-ARG CODEX_VERSION=0.163.0
+ARG CODEX_VERSION=0.164.0
 # OpenCode 2 (@opencode/cli); T3 gives OpenCode 1.x only limited support.
 # upgrade: npm @opencode/cli
-ARG OPENCODE_VERSION=2.1.3
+ARG OPENCODE_VERSION=2.1.4
 
 # Global npm installs go to /opt/npm, owned by the t3 user, so T3's "Update" button for
 # Claude/Codex works without root (until the next redeploy restores the pinned versions).
