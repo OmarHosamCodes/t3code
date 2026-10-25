@@ -1,0 +1,9 @@
+{
+  "name": "t3code",
+  "private": true,
+  "type": "module",
+  "description": "Railway image and infrastructure for T3 Code.",
+  "dependencies": {
+    "railway": "^3.16.0"
+  }
+}

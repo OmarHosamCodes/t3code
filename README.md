@@ -50,7 +50,7 @@ Paired devices stay paired across redeploys. The phone and desktop apps must be 
 
 **3. Add a project.** Use **Add project** → Git URL to clone a repo, or Local folder → `~/workspace/<dir>`. Set `GH_TOKEN` and private clones, `git push` and `gh pr create` work without a login (the box runs `gh auth setup-git` at boot). Set your commit identity once with `git config --global user.name/user.email`.
 
-**Upgrading:** versions are pinned in the Dockerfile, with T3 on the newest nightly. Every deploy is that build. Redeploying picks up bumps from this repo. T3's in-app **Update** button for Claude and Codex works, but a redeploy resets them to the pinned versions. Your data on the volume is never touched.
+**Upgrading:** versions are pinned in the Dockerfile, with T3 on the newest nightly. Every deploy is that build. Redeploying picks up bumps from this repo. The service, its `/home/t3` volume, and `T3_SETUP_PASSWORD` are declared in [`.railway/railway.ts`](.railway/railway.ts) as the `t3-code` partial. Review with `railway config plan` before `railway config apply`. T3's in-app **Update** button for Claude and Codex works, but a redeploy resets them to the pinned versions. Your data on the volume is never touched.
 
 **Upgrading a deploy from T3 0.0.x:** redeploy the service. On first boot T3 0.1 copies your threads into its new database (one-way; the old copy stays on the volume) and OpenCode 2 converts OpenCode's database. Devices paired under 0.0.x keep their session but with the old, narrower permissions, so open `/railway-pair` and pair them again.
 
