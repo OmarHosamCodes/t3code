@@ -6,12 +6,12 @@
 
 ## About Hosting T3 Code
 
-One service, one volume. The pinned `t3` server (v0.1.4-nightly.20261028.3838, checksum-verified at build) runs behind nginx on your Railway domain. It serves the T3 web app and the API that the [iOS](https://apps.apple.com/us/app/t3-code-remote-claude-more/id6787819824) and [Android](https://play.google.com/store/apps/details?id=com.t3tools.t3code) apps, the desktop app and [app.t3.codes](https://app.t3.codes) connect to.
+One service, one volume. The pinned `t3` server (v0.1.6-nightly.20261031.3956, checksum-verified at build) runs behind nginx on your Railway domain. It serves the T3 web app and the API that the [iOS](https://apps.apple.com/us/app/t3-code-remote-claude-more/id6787819824) and [Android](https://play.google.com/store/apps/details?id=com.t3tools.t3code) apps, the desktop app and [app.t3.codes](https://app.t3.codes) connect to.
 
 - **Locked by default, with T3's own auth.** Every API call, WebSocket and terminal needs a T3 session, and a device only gets one by pairing with a one-time link. Nothing is open to whoever finds the URL. The mobile apps, the desktop app and app.t3.codes connect through this same lock. A basic-auth gateway in front would have blocked them.
 - **A pairing page instead of digging through logs.** Open `https://<your-domain>/railway-pair` and sign in with the generated `T3_SETUP_PASSWORD`. The page mints a one-time pairing link that lasts 15 minutes, with a QR code for the phone app. The one-time admin token `t3 serve` prints at boot is redacted from the logs.
 - **T3 Code 0.1 (Orchestrator V2), the first stable release.** Agents can hand work to child agents on any provider (`delegate_task`: Claude plans, Codex implements), fork threads, and queue messages on the server. Interrupted threads continue after a redeploy.
-- **Agents preinstalled and pinned:** Claude Code 2.1.312, Codex 0.165.0 and OpenCode 2.2.0, next to `git`, `gh`, Node 22, Python 3 + `uv`, `build-essential`, `ripgrep`, `jq` and `tmux`.
+- **Agents preinstalled and pinned:** Claude Code 2.1.316, Codex 0.166.0 and OpenCode 2.2.5, next to `git`, `gh`, Node 22, Python 3 + `uv`, `build-essential`, `ripgrep`, `jq` and `tmux`.
 - **A normal user with sudo.** Agents run as user `t3`, so Claude Code's full-access mode works (it refuses that mode as root). Passwordless `sudo` is there for `apt-get`.
 - **Everything persists.** `/home/t3` is the volume: agent logins (`~/.claude`, `~/.codex`), T3 state and threads (`~/.t3`), repos in `~/workspace`, dotfiles.
 
